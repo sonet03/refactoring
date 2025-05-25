@@ -1,10 +1,12 @@
-﻿namespace NoteTakingApp.Domain.Models;
+﻿using NoteTakingApp.Domain.Common.ValueObjects;
+
+namespace NoteTakingApp.Domain.Models;
 
 public record Project : IHasId
 {
-    public string Id { get; init; } = Guid.NewGuid().ToString();
+    public string Id { get; init; } = ProjectId.New();
     
-    public required string UserId { get; init; }
+    public required UserId UserId { get; init; }
     
     public required string Name { get; init; }
     

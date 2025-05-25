@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using NoteTakingApp.Application.Commands;
 using NoteTakingApp.Domain.Common;
+using NoteTakingApp.Domain.Common.ValueObjects;
 using NoteTakingApp.Infrastructure.Repositories;
 
 namespace NoteTakingApp.Application.Handlers.Paragraphs;
@@ -17,7 +18,7 @@ public class DisconnectParagraphCommandHandler(INotesRepository repository)
             return Result.Failure($"Note={request.NoteId} does not exists");
         }
 
-        note.RemoveParagraph(request.ParagraphId);
+        note.RemoveParagraph(new ParagraphId(request.ParagraphId));
         await repository.UpsertAsync(note, cancellationToken);
 
         return Result.Success();

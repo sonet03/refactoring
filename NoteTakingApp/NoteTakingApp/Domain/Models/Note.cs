@@ -1,26 +1,28 @@
-﻿namespace NoteTakingApp.Domain.Models;
+﻿using NoteTakingApp.Domain.Common.ValueObjects;
+
+namespace NoteTakingApp.Domain.Models;
 
 public record Note : IHasId
 {
-    public string Id { get; init; } = Guid.NewGuid().ToString();
+    public string Id { get; init; } = NoteId.New();
     
-    public required string ProjectId { get; init; }
+    public required ProjectId ProjectId { get; init; }
     
     public string? Headline { get; init; }
 
-    public IList<string> ParagraphIds { get; init; } = new List<string>();
+    public IList<ParagraphId> ParagraphIds { get; init; } = new List<ParagraphId>();
 
-    public void AddParagraph(string id)
+    public void AddParagraph(ParagraphId id)
     {
         ParagraphIds.Add(id);
     }
     
-    public void RemoveParagraph(string id)
+    public void RemoveParagraph(ParagraphId id)
     {
         ParagraphIds.Remove(id);
     }
     
-    public bool HasParagraph(string id)
+    public bool HasParagraph(ParagraphId id)
     {
         return ParagraphIds.Contains(id);
     }

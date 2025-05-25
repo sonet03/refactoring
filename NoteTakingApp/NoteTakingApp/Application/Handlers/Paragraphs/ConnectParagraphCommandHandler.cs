@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using NoteTakingApp.Application.Commands;
 using NoteTakingApp.Domain.Common;
+using NoteTakingApp.Domain.Common.ValueObjects;
 using NoteTakingApp.Infrastructure.Repositories;
 
 namespace NoteTakingApp.Application.Handlers.Paragraphs;
@@ -19,9 +20,9 @@ public class ConnectParagraphCommandHandler(INotesRepository repository)
             return Result.Failure($"Note={request.NoteId} does not exists");
         }
 
-        if (!note.HasParagraph(request.ParagraphId))
+        if (!note.HasParagraph(new ParagraphId(request.ParagraphId)))
         {
-            note.AddParagraph(request.ParagraphId);
+            note.AddParagraph(new ParagraphId(request.ParagraphId));
             await repository.UpsertAsync(note, cancellationToken);
         }
 

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using NoteTakingApp.Application.Commands;
 using NoteTakingApp.Domain.Common;
+using NoteTakingApp.Domain.Common.ValueObjects;
 using NoteTakingApp.Domain.Models;
 using NoteTakingApp.Infrastructure.Repositories;
 
@@ -21,7 +22,7 @@ public class DuplicateNoteCommandHandler(INotesRepository repository) : IRequest
         {
             Headline = note.Headline,
             ProjectId = note.ProjectId,
-            ParagraphIds = new List<string>(note.ParagraphIds)
+            ParagraphIds = new List<ParagraphId>(note.ParagraphIds)
         };
 
         await repository.UpsertAsync(duplicate, cancellationToken);

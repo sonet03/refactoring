@@ -10,8 +10,9 @@ public static class AppExtensions
     {
         var connectionString = configuration.GetConnectionString("MongoDB")!;
         var mongoClient = new MongoClient(connectionString);
+        var database = mongoClient.GetDatabase("NoteTakingApp");
         
-        serviceCollection.AddSingleton(mongoClient.GetDatabase("NoteTakingApp"));
+        serviceCollection.AddSingleton(database);
         
         serviceCollection.AddHealthChecks()
             .AddMongoDb(connectionString, name: "mongodb");
@@ -22,5 +23,6 @@ public static class AppExtensions
         serviceCollection.AddSingleton<IUserRepository, UserRepository>();
 
         serviceCollection.AddSingleton<IPasswordHasher, PasswordHasher>();
+        serviceCollection.AddSingleton<ITransactionService, TransactionService>();
     }
 }
